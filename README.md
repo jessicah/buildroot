@@ -6,7 +6,7 @@ working HAOS image for the rock5b.
 Building (based on HAOS helper scripts, docker build image):
 
 ```bash
-./scripts.enter.sh make rock5b
+./scripts/enter.sh make rock5b
 ```
 
 WORKING:
