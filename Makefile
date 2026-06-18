@@ -3,7 +3,10 @@ BUILDDIR:=$(shell pwd)
 BUILDROOT=$(BUILDDIR)/buildroot
 BUILDROOT_JESIKAT=$(BUILDDIR)/jesikat
 BUILDROOT_HAOS=$(BUILDDIR)/haos
-DEFCONFIG_DIR = $(BUILDROOT_JESIKAT)/configs
+BUILDROOT_ROCK5B_HAOS=$(BUILDDIR)/rock5b-haos
+DEFCONFIG_DIR = $(BUILDROOT_ROCK5B_HAOS)/configs
+
+BUILDROOT_COMBINED="$(BUILDROOT_JESIKAT) $(BUILDROOT_HAOS) $(BUILDROOT_ROCK5B_HAOS)"
 
 TARGETS := $(notdir $(patsubst %_defconfig,%,$(wildcard $(DEFCONFIG_DIR)/*_defconfig)))
 TARGETS_CONFIG := $(notdir $(patsubst %_defconfig,%-config,$(wildcard $(DEFCONFIG_DIR)/*_defconfig)))
@@ -36,11 +39,11 @@ TERM_RESET := $(shell tput sgr0 2>/dev/null)
 # fallback target when target undefined here is given
 .DEFAULT:
 	$(call print,$(COLOR_STEP)=== Falling back to Buildroot target '$@' ===$(TERM_RESET))
-	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL="$(BUILDROOT_JESIKAT) $(BUILDROOT_HAOS)" "$@"
+	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL=$(BUILDROOT_COMBINED) "$@"
 
 # default target when no target is given - must be first in Makefile
 default:
-	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL="$(BUILDROOT_JESIKAT) $(BUILDROOT_HAOS)"
+	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL=$(BUILDROOT_COMBINED)
 
 $(TARGETS_CONFIG): %-config:
 	@if [ -f $(O)/.config ] && ! grep -q 'BR2_DEFCONFIG="$(DEFCONFIG_DIR)/$*_defconfig"' $(O)/.config; then \
@@ -50,14 +53,14 @@ $(TARGETS_CONFIG): %-config:
 		bash -c 'read -t 10 -p "Waiting 10s, press enter to continue or Ctrl-C to abort..."' || true; \
 	fi
 	$(call print,$(COLOR_STEP)=== Using $*_defconfig ===$(TERM_RESET))
-	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL="$(BUILDROOT_JESIKAT) $(BUILDROOT_HAOS)" "$*_defconfig"
+	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL=$(BUILDROOT_COMBINED) "$*_defconfig"
 
 $(TARGETS): %: %-config
 	$(call print,$(COLOR_STEP)=== Building $@ ===$(TERM_RESET))
-	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL="$(BUILDROOT_JESIKAT) $(BUILDROOT_HAOS)"
+	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL=$(BUILDROOT_COMBINED)
 
 buildroot-help:
-	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL="$(BUILDROOT_JESIKAT) $(BUILDROOT_HAOS)" help
+	$(MAKE) -C $(BUILDROOT) O=$(O) BR2_EXTERNAL=$(BUILDROOT_COMBINED) help
 
 help:
 	@echo "Run 'make <target>' to build a target image."
