@@ -13,7 +13,13 @@ BR2_ROOTFS_POST_SCRIPT_ARGS="-c board/radxa/rock5b/genimage.cfg"
 BR2_LINUX_KERNEL=y
 
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://gitlab.collabora.com/hardware-enablement/rockchip-rk3588/linux/-/archive/rockchip-v7.0/linux-rockchip-v7.0.tar.gz"
-
+## new
+BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
+BR2_LINUX_KERNEL_CUSTOM_VERSION=y
+BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="7.0"
+BR2_KERNEL_HEADERS_7_0=y
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_7_0=y
+## end
 BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y
 ### rock5b + haos fragments
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/radxa/rock5b/linux.fragment $(BR2_EXTERNAL_HAOS_PATH)/kernel/v6.18.y/haos.config $(BR2_EXTERNAL_HAOS_PATH)/kernel/v6.18.y/docker.config $(BR2_EXTERNAL_HAOS_PATH)/kernel/v6.18.y/device-support.config"
