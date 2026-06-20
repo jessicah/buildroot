@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-DASH_VERSION = 0.5.12
+DASH_VERSION = 0.5.13.4
 DASH_SITE = http://gondor.apana.org.au/~herbert/dash/files
 DASH_LICENSE = BSD-3-Clause, GPL-2.0+ (mksignames.c)
 DASH_LICENSE_FILES = COPYING
@@ -12,9 +12,6 @@ DASH_LICENSE_FILES = COPYING
 DASH_AUTORECONF = YES
 
 DASH_CPE_ID_VENDOR = dash
-
-# 0002-fix-CVE-2026-31323.patch
-DASH_IGNORE_CVES += CVE-2026-31323
 
 # dash does not build in parallel
 DASH_MAKE = $(MAKE1)

@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBCAMERA_SITE = https://git.linuxtv.org/libcamera.git
-LIBCAMERA_VERSION = v0.4.0
+LIBCAMERA_VERSION = v0.7.0
 LIBCAMERA_SITE_METHOD = git
 LIBCAMERA_DEPENDENCIES = \
 	host-openssl \
@@ -23,23 +23,23 @@ LIBCAMERA_CONF_OPTS = \
 	-Dwerror=false
 LIBCAMERA_INSTALL_STAGING = YES
 LIBCAMERA_LICENSE = \
-	LGPL-2.1+ (library), \
-	GPL-2.0+ (utils), \
-	MIT (qcam/assets/feathericons), \
 	BSD-2-Clause (raspberrypi), \
-	GPL-2.0 with Linux-syscall-note or BSD-3-Clause (linux kernel headers), \
+	CC-BY-SA-4.0 (doc), \
 	CC0-1.0 (meson build system), \
-	CC-BY-SA-4.0 (doc)
+	GPL-2.0 with Linux-syscall-note or BSD-3-Clause (linux kernel headers), \
+	GPL-2.0+ (utils), \
+	LGPL-2.1+ (library), \
+	MIT (qcam/assets/feathericons)
 LIBCAMERA_LICENSE_FILES = \
-	LICENSES/LGPL-2.1-or-later.txt \
-	LICENSES/GPL-2.0-or-later.txt \
-	LICENSES/MIT.txt \
 	LICENSES/BSD-2-Clause.txt \
-	LICENSES/GPL-2.0-only.txt \
-	LICENSES/Linux-syscall-note.txt \
 	LICENSES/BSD-3-Clause.txt \
+	LICENSES/CC-BY-SA-4.0.txt \
 	LICENSES/CC0-1.0.txt \
-	LICENSES/CC-BY-SA-4.0.txt
+	LICENSES/GPL-2.0-only.txt \
+	LICENSES/GPL-2.0-or-later.txt \
+	LICENSES/LGPL-2.1-or-later.txt \
+	LICENSES/Linux-syscall-note.txt \
+	LICENSES/MIT.txt
 
 ifeq ($(BR2_TOOLCHAIN_GCC_AT_LEAST_7),y)
 LIBCAMERA_CXXFLAGS = -faligned-new
@@ -51,13 +51,12 @@ LIBCAMERA_CONF_OPTS += -Dpycamera=enabled
 endif
 
 ifeq ($(BR2_PACKAGE_LIBCAMERA_V4L2),y)
-LIBCAMERA_CONF_OPTS += -Dv4l2=true
-else
-LIBCAMERA_CONF_OPTS += -Dv4l2=false
+LIBCAMERA_CONF_OPTS += -Dv4l2=enabled
 endif
 
 LIBCAMERA_PIPELINES-$(BR2_PACKAGE_LIBCAMERA_PIPELINE_IMX8_ISI) += imx8-isi
 LIBCAMERA_PIPELINES-$(BR2_PACKAGE_LIBCAMERA_PIPELINE_IPU3) += ipu3
+LIBCAMERA_PIPELINES-$(BR2_PACKAGE_LIBCAMERA_PIPELINE_MALI_C55) += mali-c55
 LIBCAMERA_PIPELINES-$(BR2_PACKAGE_LIBCAMERA_PIPELINE_RKISP1) += rkisp1
 LIBCAMERA_PIPELINES-$(BR2_PACKAGE_LIBCAMERA_PIPELINE_RPI_VC4) += rpi/vc4
 LIBCAMERA_PIPELINES-$(BR2_PACKAGE_LIBCAMERA_PIPELINE_SIMPLE) += simple

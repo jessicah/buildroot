@@ -7,58 +7,49 @@
 # Generate version string using:
 #   git describe --match 'glibc-*' --abbrev=40 origin/release/MAJOR.MINOR/master | cut -d '-' -f 2-
 # When updating the version, please also update localedef
-GLIBC_VERSION = 2.41-137-gb676adadbc1f5fb2f31bc484a7628cca89ae6f22
+GLIBC_VERSION = 2.43-27-g4070d808bea1c077eb7e7d52b52b91cae98205d5
 GLIBC_SITE = https://sourceware.org/git/glibc.git
 GLIBC_SITE_METHOD = git
 
 GLIBC_LICENSE = GPL-2.0+ (programs), LGPL-2.1+, BSD-3-Clause, MIT (library)
-GLIBC_LICENSE_FILES = COPYING COPYING.LIB LICENSES
+GLIBC_LICENSE_FILES = COPYINGv2 COPYING.LESSERv2 LICENSES
 GLIBC_CPE_ID_VENDOR = gnu
 
 # Extract the base version (e.g. 2.38) from GLIBC_VERSION in order to
 # allow proper matching with the CPE database.
 GLIBC_CPE_ID_VERSION = $(word 1, $(subst -,$(space),$(GLIBC_VERSION)))
 
-# Fixed by glibc-2.41-57-g84bdbf8a6f2fdafd3661489dbb7f79835a52da82
-GLIBC_IGNORE_CVES += CVE-2025-5745
-
-# Fixed by glibc-2.41-60-g0c76c951620f9e12df2a89b2c684878b55bb6795
-GLIBC_IGNORE_CVES += CVE-2025-5702
-
 # Fixed by glibc-2.41-64-g1e16d0096d80a6e12d5bfa8e0aafdd13c47efd65
 GLIBC_IGNORE_CVES += CVE-2025-8058
 
-# Fixed by glibc-2.41-121-g1e2c1ea4307197ccece0cda574bcfebf9080894c
+# Fixed by glibc-2.42-49-gb0ec8fb689df862171f0f78994a3bdeb51313545
 GLIBC_IGNORE_CVES += CVE-2026-0861
 
-# Fixed by glibc-2.41-122-g15c9839a0b853f552b4ed9047841b6223f3c104d
+# Fixed by glibc-2.42-50-g453e6b8dbab935257eb0802b0c97bca6b67ba30e
 GLIBC_IGNORE_CVES += CVE-2026-0915
 
-# Fixed by glibc-2.41-123-gfb4db64a04ad6c96cd1fbb7e02eb59323b1f2ac2
+# Fixed by glibc-2.42-51-gcbf39c26b25801e9bc88499b4fd361ac172d4125
 GLIBC_IGNORE_CVES += CVE-2025-15281
+
+# Fixed by glibc-2.43-16-g5c6fca0c62ce5bd6e68e259f138097756cbafd4d
+GLIBC_IGNORE_CVES += CVE-2026-4437
+
+# Fixed by glibc-2.43-17-gdd9945c0ba40d2dbc9eb7c99291ba6b69bd66718
+GLIBC_IGNORE_CVES += CVE-2026-4438
+
+# Fixed by glibc-2.43-22-g8362e8ce10b24068bacc19552c128dd10e082fd9
+GLIBC_IGNORE_CVES += CVE-2026-4046
+
+# Fixed by glibc-2.43-26-g2890b35cd361df2517525bf2c5f8c63f6f0d4a20
+GLIBC_IGNORE_CVES += CVE-2026-5928
+
+# Fixed by glibc-2.43-27-g4070d808bea1c077eb7e7d52b52b91cae98205d5
+GLIBC_IGNORE_CVES += CVE-2026-5450
 
 # This CVE is considered as not being security issues by
 # upstream glibc:
 #  https://security-tracker.debian.org/tracker/CVE-2010-4756
 GLIBC_IGNORE_CVES += CVE-2010-4756
-
-# Fixed by glibc-2.41-121-g1e2c1ea4307197ccece0cda574bcfebf9080894c
-GLIBC_IGNORE_CVES += CVE-2026-0861
-
-# Fixed by glibc-2.41-122-g15c9839a0b853f552b4ed9047841b6223f3c104d
-GLIBC_IGNORE_CVES += CVE-2026-0915
-
-# Fixed by glibc-2.41-123-gfb4db64a04ad6c96cd1fbb7e02eb59323b1f2ac2
-GLIBC_IGNORE_CVES += CVE-2025-15281
-
-# Fixed by glibc-2.41-131-gdbd8335c8ce8af11226ee1514d7a020b15c63345
-GLIBC_IGNORE_CVES += CVE-2026-4437
-
-# Fixed by glibc-2.41-132-g502861645bb1baf650d58e2ddd6b230bc26676c9
-GLIBC_IGNORE_CVES += CVE-2026-4438
-
-# Fixed by glibc-2.41-135-g61737f43b1f0d9f64a6f16649625476b70f9f4d3
-GLIBC_IGNORE_CVES += CVE-2026-4046
 
 # glibc is part of the toolchain so disable the toolchain dependency
 GLIBC_ADD_TOOLCHAIN_DEPENDENCY = NO

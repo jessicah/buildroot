@@ -4,9 +4,8 @@
 #
 ################################################################################
 
-LIBFTDI1_VERSION = 1.5
-LIBFTDI1_SOURCE = libftdi1-$(LIBFTDI1_VERSION).tar.bz2
-LIBFTDI1_SITE = http://www.intra2net.com/en/developer/libftdi/download
+LIBFTDI1_VERSION = v1.6rc1-2-g92d657bcb543a9622947d984d4a8e725fb680e8c
+LIBFTDI1_SITE = git://developer.intra2net.com/libftdi
 LIBFTDI1_INSTALL_STAGING = YES
 LIBFTDI1_DEPENDENCIES = host-pkgconf libusb
 LIBFTDI1_LICENSE = LGPL-2.1 (libftdi1), MIT (libftdi1)

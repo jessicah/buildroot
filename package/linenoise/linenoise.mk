@@ -4,12 +4,11 @@
 #
 ################################################################################
 
-LINENOISE_VERSION = e26268de5e56bfaad773786471844578fe9f7f4b
+LINENOISE_VERSION = 2.0
 LINENOISE_SITE = $(call github,antirez,linenoise,$(LINENOISE_VERSION))
 LINENOISE_LICENSE = BSD-2-Clause
 LINENOISE_LICENSE_FILES = LICENSE
 LINENOISE_CPE_ID_VENDOR = antirez
-LINENOISE_CPE_ID_VERSION = 1.0
 LINENOISE_INSTALL_STAGING = YES
 # Static library only, nothing to install on target
 LINENOISE_INSTALL_TARGET = NO

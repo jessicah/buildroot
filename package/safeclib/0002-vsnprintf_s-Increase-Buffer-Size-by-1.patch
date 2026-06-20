@@ -1,4 +1,4 @@
-From 62051f9761f92dc99c8ce0552239ad10e2062168 Mon Sep 17 00:00:00 2001
+From 79e1445f4b3689526b46121b1218cab802b9ae88 Mon Sep 17 00:00:00 2001
 From: Bernd Kuhls <bernd@kuhls.net>
 Date: Sat, 10 Jan 2026 12:16:22 +0100
 Subject: [PATCH] vsnprintf_s: Increase Buffer Size by 1
@@ -25,22 +25,21 @@ str/vsnprintf_s.c:312:10: note: at offset 32 into destination object 'buf' of si
       |          ^~~
 cc1: all warnings being treated as errors
 
-Upstream: https://github.com/rurban/safeclib/pull/150
+Upstream: https://github.com/rurban/safeclib/commit/79e1445f4b3689526b46121b1218cab802b9ae88
 
-[backported to version 3.7.1]
 Signed-off-by: Bernd Kuhls <bernd@kuhls.net>
 ---
  src/str/vsnprintf_s.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/str/vsnprintf_s.c b/src/str/vsnprintf_s.c
-index 59dbda94..ca838df1 100644
+index 0b62c3cb..cf8e866e 100644
 --- a/src/str/vsnprintf_s.c
 +++ b/src/str/vsnprintf_s.c
-@@ -296,7 +296,7 @@ static size_t safec_ntoa_long(out_fct_type out,  const char *funcname,
+@@ -309,7 +309,7 @@ static size_t safec_ntoa_long(out_fct_type out, const char *funcname,
+                               unsigned long value, bool negative,
                                unsigned long base, unsigned int prec,
-                               unsigned int width, unsigned int flags)
- {
+                               unsigned int width, unsigned int flags) {
 -    char buf[PRINTF_NTOA_BUFFER_SIZE];
 +    char buf[PRINTF_NTOA_BUFFER_SIZE + 1];
      size_t len = 0U;

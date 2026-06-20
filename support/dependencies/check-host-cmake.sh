@@ -6,9 +6,6 @@
 major_min="${1%.*}"
 minor_min="${1#*.}"
 
-major_max="4"
-minor_max="0"
-
 # When running 'make show-info-all' or pkg-stats, it is possible to trigger this
 # script without passing a version number. These cases are special because they
 # force the reading of all packages without requiring a .config, so

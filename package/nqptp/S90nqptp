@@ -1,0 +1,81 @@
+#!/bin/sh
+
+<<<<<<<< HEAD:package/busybox/S90httpd
+DAEMON="httpd"
+PIDFILE="/var/run/$DAEMON.pid"
+
+HTTPD_ARGS="-h /var/www/data"
+========
+DAEMON="nqptp"
+PIDFILE="/var/run/$DAEMON.pid"
+
+NQPTP_ARGS=""
+>>>>>>>> 313414b92c2501a2bc123ffa1b6383dca464de05:package/nqptp/S90nqptp
+
+# shellcheck source=/dev/null
+[ -r "/etc/default/$DAEMON" ] && . "/etc/default/$DAEMON"
+
+# BusyBox' httpd does not create a pidfile, so pass "-f" in the command line
+# and use "--make-pidfile" to instruct start-stop-daemon to create one.
+start() {
+	printf 'Starting %s: ' "$DAEMON"
+	# shellcheck disable=SC2086 # we need the word splitting
+<<<<<<<< HEAD:package/busybox/S90httpd
+	start-stop-daemon --start --background --quiet --make-pidfile \
+		--pidfile "$PIDFILE" --exec "/usr/sbin/$DAEMON" \
+		-- -f $HTTPD_ARGS
+========
+	start-stop-daemon --start --background --make-pidfile \
+		--pidfile "$PIDFILE" --exec "/usr/bin/$DAEMON" \
+		-- $NQPTP_ARGS
+>>>>>>>> 313414b92c2501a2bc123ffa1b6383dca464de05:package/nqptp/S90nqptp
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+stop() {
+	printf 'Stopping %s: ' "$DAEMON"
+<<<<<<<< HEAD:package/busybox/S90httpd
+	start-stop-daemon --stop --quiet --pidfile "$PIDFILE"
+========
+	start-stop-daemon --stop --pidfile "$PIDFILE" --exec "/usr/bin/$DAEMON"
+>>>>>>>> 313414b92c2501a2bc123ffa1b6383dca464de05:package/nqptp/S90nqptp
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+		return "$status"
+	fi
+	while start-stop-daemon --stop --test --quiet --pidfile "$PIDFILE" \
+<<<<<<<< HEAD:package/busybox/S90httpd
+		--exec "/usr/sbin/$DAEMON"; do
+========
+		--exec "/sbin/$DAEMON"; do
+>>>>>>>> 313414b92c2501a2bc123ffa1b6383dca464de05:package/nqptp/S90nqptp
+		sleep 0.1
+	done
+	rm -f "$PIDFILE"
+	return "$status"
+}
+
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+	start|stop|restart)
+		"$1";;
+	reload)
+		# Restart, since there is no true "reload" feature.
+		restart;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac

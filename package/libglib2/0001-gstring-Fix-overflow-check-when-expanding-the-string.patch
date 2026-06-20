@@ -63,7 +63,7 @@ index bdd068344..45a6f68b1 100644
 +  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
 +    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len);
 +
-   if (G_UNLIKELY (string->len + len >= string->allocated_len))
+   if (G_UNLIKELY (len >= string->allocated_len - string->len))
      g_string_expand (string, len);
  }
 -- 

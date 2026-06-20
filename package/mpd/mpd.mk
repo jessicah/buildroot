@@ -4,11 +4,11 @@
 #
 ################################################################################
 
-MPD_VERSION_MAJOR = 0.23
-MPD_VERSION = $(MPD_VERSION_MAJOR).17
+MPD_VERSION_MAJOR = 0.24
+MPD_VERSION = $(MPD_VERSION_MAJOR).12
 MPD_SOURCE = mpd-$(MPD_VERSION).tar.xz
 MPD_SITE = https://www.musicpd.org/download/mpd/$(MPD_VERSION_MAJOR)
-MPD_DEPENDENCIES = host-pkgconf boost fmt
+MPD_DEPENDENCIES = host-pkgconf fmt
 MPD_LICENSE = GPL-2.0+
 MPD_LICENSE_FILES = COPYING
 
@@ -21,8 +21,10 @@ MPD_CONF_OPTS = \
 	-Ddocumentation=disabled \
 	-Dhtml_manual=false \
 	-Dmanpages=false \
+	-Dmpcdec=disabled \
 	-Dopenmpt=disabled \
 	-Dpipewire=disabled \
+	-Dsidplay=disabled \
 	-Dsnapcast=false
 
 ifeq ($(BR2_PACKAGE_EXPAT),y)
@@ -40,11 +42,19 @@ else
 MPD_CONF_OPTS += -Dicu=disabled
 endif
 
-ifeq ($(BR2_PACKAGE_YAJL),y)
-MPD_DEPENDENCIES += yajl
-MPD_CONF_OPTS += -Dyajl=enabled
+# uClibc w/o locales
+ifeq ($(BR2_PACKAGE_LIBICONV),y)
+MPD_DEPENDENCIES += libiconv
+MPD_CONF_OPTS += -Diconv=enabled
 else
-MPD_CONF_OPTS += -Dyajl=disabled
+MPD_CONF_OPTS += -Diconv=disabled
+endif
+
+ifeq ($(BR2_PACKAGE_JSON_FOR_MODERN_CPP),y)
+MPD_DEPENDENCIES += json-for-modern-cpp
+MPD_CONF_OPTS += -Dnlohmann_json=enabled
+else
+MPD_CONF_OPTS += -Dnlohmann_json=disabled
 endif
 
 # uClibc w/o locales
@@ -236,13 +246,6 @@ else
 MPD_CONF_OPTS += -Dmpg123=disabled
 endif
 
-ifeq ($(BR2_PACKAGE_MPD_MUSEPACK),y)
-MPD_DEPENDENCIES += musepack
-MPD_CONF_OPTS += -Dmpcdec=enabled
-else
-MPD_CONF_OPTS += -Dmpcdec=disabled
-endif
-
 ifeq ($(BR2_PACKAGE_MPD_NEIGHBOR_DISCOVERY_SUPPORT),y)
 MPD_CONF_OPTS += -Dneighbor=true
 else
@@ -288,19 +291,6 @@ MPD_DEPENDENCIES += libshout
 MPD_CONF_OPTS += -Dshout=enabled
 else
 MPD_CONF_OPTS += -Dshout=disabled
-endif
-
-ifeq ($(BR2_PACKAGE_MPD_SIDPLAY),y)
-MPD_DEPENDENCIES += libsidplay2
-MPD_CONF_OPTS += -Dsidplay=enabled
-else
-MPD_CONF_OPTS += -Dsidplay=disabled
-endif
-
-ifeq ($(BR2_PACKAGE_MPD_SOUNDCLOUD),y)
-MPD_CONF_OPTS += -Dsoundcloud=enabled
-else
-MPD_CONF_OPTS += -Dsoundcloud=disabled
 endif
 
 ifeq ($(BR2_PACKAGE_MPD_SQLITE),y)

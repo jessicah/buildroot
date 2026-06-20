@@ -5,7 +5,7 @@
 ################################################################################
 
 # Please keep in sync with configs/raspberrypi*_deconfig
-RPI_FIRMWARE_VERSION = 12eeaa12865869b07db760f4bbb7507ec6f1976c
+RPI_FIRMWARE_VERSION = 063bcab6c8a90efb0d19f69d88cbbc7ec79cab68
 RPI_FIRMWARE_SITE = $(call github,raspberrypi,firmware,$(RPI_FIRMWARE_VERSION))
 RPI_FIRMWARE_LICENSE = BSD-3-Clause
 RPI_FIRMWARE_LICENSE_FILES = boot/LICENCE.broadcom
@@ -62,12 +62,20 @@ define RPI_FIRMWARE_INSTALL_DTB_OVERLAYS
 endef
 endif
 
+RPI_FIRMWARE_EXTRA_FILES = $(call qstrip,$(BR2_PACKAGE_RPI_FIRMWARE_EXTRA_FILES))
+define RPI_FIRMWARE_INSTALL_EXTRA_FILES
+	$(foreach f,$(RPI_FIRMWARE_EXTRA_FILES), \
+		$(INSTALL) -D -m 0644 $(f) $(BINARIES_DIR)/rpi-firmware/$(notdir $(f))
+	)
+endef
+
 define RPI_FIRMWARE_INSTALL_IMAGES_CMDS
 	$(RPI_FIRMWARE_INSTALL_BIN)
 	$(RPI_FIRMWARE_INSTALL_CONFIG)
 	$(RPI_FIRMWARE_INSTALL_CMDLINE)
 	$(RPI_FIRMWARE_INSTALL_DTB)
 	$(RPI_FIRMWARE_INSTALL_DTB_OVERLAYS)
+	$(RPI_FIRMWARE_INSTALL_EXTRA_FILES)
 endef
 
 $(eval $(generic-package))
